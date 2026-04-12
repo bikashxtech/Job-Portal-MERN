@@ -1,0 +1,35 @@
+import mongoose from "mongoose";
+
+const applicationSchema = new mongoose.Schema(
+    {
+        applicant: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+
+        jpb: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Job"
+        },
+
+        status: {
+            type: String,
+            enum: [
+                "applied",
+                "shortlisted",
+                "interview",
+                "rejected",
+                "accepted"
+            ],
+            default: "applied"
+        },
+        
+        resume: String,
+
+        coverLetter: String
+    },
+
+    {timestamps: true}
+);
+
+export default mongoose.model("Application", applicationSchema);
