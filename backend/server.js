@@ -7,6 +7,7 @@ import connectToDB from "./utils/db.js"
 import userRouter from "./routes/user.router.js"
 import jobRouter from "./routes/job.routes.js"
 
+
 let port = process.env.PORT
 
 const app = express()
@@ -24,6 +25,6 @@ app.use("/user", userRouter)
 app.use("/jobs", jobRouter)
 
 app.listen(port, () => {
-    console.log("Server started at 5000")
+    console.log(`Server started at ${port}`)
     connectToDB()
 });
