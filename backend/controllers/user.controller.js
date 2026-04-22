@@ -1,5 +1,19 @@
 import User from "../models/user.model.js"
 
+async function allUsers(req, res) {
+    try {
+        let users = await User.find({})
+        if (users) {
+            res.status(200).json(users)
+        } else {
+            res.status(400).send({"message" : "No users Found"})
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(500).send(error.message)
+    }
+}
+
 async function addUser(req, res) {
     try {
         let newUser = req.body
@@ -53,4 +67,4 @@ async function updateUser(req, res) {
     }
 }
 
-export {addUser, getUserById, deleteUser, updateUser};
+export {allUsers, addUser, getUserById, deleteUser, updateUser};

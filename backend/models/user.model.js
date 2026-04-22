@@ -32,9 +32,9 @@ const userSchema = new mongoose.Schema(
         
         profilePic: String,
 
-        comapny: {
+        company: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "company"
+            ref: "Company"
         }
     },
     { timestamps: true}

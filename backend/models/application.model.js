@@ -7,7 +7,7 @@ const applicationSchema = new mongoose.Schema(
             ref: "User"
         },
 
-        jpb: {
+        job: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Job"
         },

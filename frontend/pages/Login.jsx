@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
-
+import axiosClient from "../src/apiClient.js"
+ 
 function Login() {
 
     const [activeTab, setActiveTab] = useState("login");
@@ -51,7 +52,7 @@ function Login() {
 
             console.log("Login payload:", payload);
 
-            // axios call here later
+            let res = await axiosClient.post("/",)
 
         } catch (error) {
             console.log(error);

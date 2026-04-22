@@ -6,6 +6,7 @@ import "dotenv/config";
 import connectToDB from "./utils/db.js"
 import userRouter from "./routes/user.router.js"
 import jobRouter from "./routes/job.routes.js"
+import companyRouter from "./routes/company.routes.js"
 
 
 let port = process.env.PORT
@@ -21,8 +22,9 @@ app.get("/", (req, res) => {
     res.send("Welcome to the job portal!!");
 })
 
-app.use("/user", userRouter)
+app.use("/users", userRouter)
 app.use("/jobs", jobRouter)
+app.use("/companies", companyRouter)
 
 app.listen(port, () => {
     console.log(`Server started at ${port}`)
