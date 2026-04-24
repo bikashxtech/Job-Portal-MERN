@@ -2,6 +2,7 @@ import express from "express";
 import "dotenv/config"
 import cors from 'cors'
 import "dotenv/config";
+import cookieParser from "cookie-parser"
 
 import connectToDB from "./utils/db.js"
 import userRouter from "./routes/user.router.js"
@@ -13,9 +14,11 @@ let port = process.env.PORT
 
 const app = express()
 app.use(express.json());
+app.use(cookieParser());
 
 app.use(cors({
-    origin : "http://localhost:5173"
+    origin : "http://localhost:5173",
+    credentials: true
 }))
 
 app.get("/", (req, res) => {
