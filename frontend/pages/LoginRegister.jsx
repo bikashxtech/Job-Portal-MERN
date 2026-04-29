@@ -38,7 +38,10 @@ function LoginRegister() {
             payload.password = loginData.password
             await login(payload);
         } catch (error) {
-            setError("Invalid Credentials")
+            setError(
+                error.response?.data?.message ||
+                "Login failed"
+            );
         } finally {
             setLoading(false)
         }
@@ -65,8 +68,10 @@ function LoginRegister() {
             });
 
         } catch (err) {
-
-            setError("Registration failed");
+            setError(
+                err.response?.data?.message ||
+                "Registration failed"
+            );
 
         } finally {
 
@@ -102,13 +107,6 @@ function LoginRegister() {
             </ul>
 
 
-            {error && (
-                <div className="alert alert-danger">
-                    {error}
-                </div>
-            )}
-
-
             {/* LOGIN FORM */}
 
             {activeTab === "login" && (
@@ -142,6 +140,12 @@ function LoginRegister() {
                         }
                         required
                     />
+
+                    {error && (
+                        <div className="alert alert-danger">
+                            {error}
+                        </div>
+                    )}
 
                     <button
                         className="btn btn-primary w-100"
@@ -229,6 +233,12 @@ function LoginRegister() {
                         <option value="candidate">Candidate</option>
                         <option value="recruiter">Recruiter</option>
                     </select>
+
+                    {error && (
+                        <div className="alert alert-danger">
+                            {error}
+                        </div>
+                    )}
 
                     <button
                         className="btn btn-success w-100"

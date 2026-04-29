@@ -8,7 +8,9 @@ import connectToDB from "./utils/db.js"
 import userRouter from "./routes/user.router.js"
 import jobRouter from "./routes/job.routes.js"
 import companyRouter from "./routes/company.routes.js"
-
+import applicationRouter from "./routes/application.routes.js"
+import dashboardRouter from "./routes/dashboard.routes.js"
+import adminRouter from "./routes/admin.routes.js"
 
 let port = process.env.PORT
 
@@ -25,9 +27,12 @@ app.get("/", (req, res) => {
     res.send("Welcome to the job portal!!");
 })
 
+app.use("/admin", adminRouter)
 app.use("/users", userRouter)
 app.use("/jobs", jobRouter)
 app.use("/companies", companyRouter)
+app.use("/applications", applicationRouter)
+app.use("/dashboard", dashboardRouter)
 
 app.listen(port, () => {
     console.log(`Server started at ${port}`)

@@ -1,6 +1,8 @@
 import User from "../models/user.model.js"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
+import Company from "../models/company.model.js"
+import mongoose from "mongoose"
 
 async function allUsers(req, res) {
     try {
@@ -169,7 +171,20 @@ async function updateUser(req, res) {
     try {
         let {id} = req.params
         let data = req.body
-        let user = await User.findByIdAndUpdate(id, data);
+        if (data.company) {
+            if (!mongoose.Types.ObjectId.isValid(data.company)) {
+                return res.status(400).json({
+                    message: "Invalid company ID"
+                });
+            }
+            let company = await Company.findById(data.company)
+            if(!company) {
+                return res.status(404).json({
+                    message: "No such company"
+                })
+            }
+        }
+        let user = await User.findByIdAndUpdate(id, data, {returnDocument: "after"}).select("-password");
         if(user) {
             res.send(user)
         } else {
@@ -184,7 +199,7 @@ async function updateUser(req, res) {
 async function getCurrentUser(req, res) {
     try {
 
-        const user = await User.findById(req.user).select("-password");
+        const user = await User.findById(req.user._id).populate("company", "name").select("-password")
 
         if (!user) {
             return res.status(404).json({
@@ -204,4 +219,7 @@ async function getCurrentUser(req, res) {
     }
 }
 
-export {allUsers, addUser, getUserById, deleteUser, updateUser, loginUser, logoutUser, getCurrentUser};
+
+export {allUsers, addUser, getUserById, 
+    deleteUser, updateUser, loginUser, 
+    logoutUser, getCurrentUser};

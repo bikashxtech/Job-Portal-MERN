@@ -2,12 +2,43 @@ import Company from "../models/company.model.js"
 
 async function addCompany(req, res) {
     try {
-        let company = req.body
-        company = await Company.create(company)
-        res.status(201).json(company)
+
+        const { name, location, description, website, logo } = req.body;
+
+        if (!name || !location) {
+            return res.status(400).json({
+                message: "Company name and location are required"
+            });
+        }
+
+        const existingCompany = await Company.findOne({ name });
+
+        if (existingCompany) {
+            return res.status(400).json({
+                message: "Company already exists"
+            });
+        }
+
+        const company = await Company.create({
+            name,
+            location,
+            description,
+            website,
+            logo,
+            createdBy: req.user._id
+        });
+
+        res.status(201).json(company);
+
     } catch (error) {
-        console.log(error)
-        res.status(500).send(error.message)
+
+        console.log(error);
+
+        res.status(500).json({
+            message: "Failed to create company",
+            error: error.message
+        });
+
     }
 }
 
@@ -41,19 +72,33 @@ async function getCompanyById(req, res) {
 }
 
 async function updateCompany(req, res) {
+
     try {
-        const id = req.params.id
-        let body = req.body
-        let company = await Company.findByIdAndUpdate(id, body)
+
+        const company = await Company.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { returnDocument: "after" }
+        );
+
         if (!company) {
-            res.status(400).send({"message" : "Update error"})
+
+            return res.status(404).json({
+                message: "Company not found"
+            });
+
         }
-    
-        res.json(company)
+
+        res.json(company);
+
     } catch (error) {
-        console.log(error)
-        res.status(500).send(error.message)
+
+        res.status(500).json({
+            message: "Update failed"
+        });
+
     }
+
 }
 
 async function deleteCompany(req, res) {

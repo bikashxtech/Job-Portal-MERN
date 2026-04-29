@@ -34,6 +34,7 @@ export function AuthProvider({children}) {
             navigate("/dashboard")
         } catch (error) {
             console.error("Registration failed: ", error.response?.data || error.message);
+            throw error;
         }
     }
 
@@ -45,6 +46,7 @@ export function AuthProvider({children}) {
             navigate("/dashboard")
         } catch (error) {
             console.error("Login failed", error.response?.data || error.message)
+            throw error
         }
     }
 

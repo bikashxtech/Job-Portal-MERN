@@ -21,7 +21,7 @@ function Navbar() {
                                 <Link className="nav-link" to="/features">Features</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/jobs">Jobs</Link>
+                                <Link className="nav-link" to="/Jobs">Jobs</Link>
                             </li>
                             {user && (
                                 <li className="nav-item">
